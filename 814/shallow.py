@@ -11,12 +11,12 @@ class FullyConnect:
 
 	def forward(self, x):
 		self.x = x
-		self.y = np.array(np.dot(self.weights, xx) + self.bias for xx in x)
+		self.y = np.array([np.dot(self.weights, xx) + self.bias for xx in x])
 		return self.y
 
 	def backward(self, d):
 		self.ddw = [np.dot(dd, xx.T) for dd, xx in zip(d, self.x)]
-		self.dw = np.sum(ddw, axis=0) / self.x.shape[0]
+		self.dw = np.sum(self.ddw, axis=0) / self.x.shape[0]
  		self.db = np.sum(d, axis=0) / self.x.shape[0]
 		self.dx = np.array([np.dot(self.weights.T, dd) for dd in d]) 	
 		self.weights -= self.lr * self.dw
@@ -36,9 +36,9 @@ class Sigmoid:
 		self.y = self.sigmoid(x)
 		return self.y
 	
-	def backward(self):
+	def backward(self, d):
 		sig = self.sigmoid(self.x)
-		self.dx = sig * (1 - sig)
+		self.dx = d * sig * (1 - sig)
 		return self.dx
 
 	
@@ -47,7 +47,7 @@ class QuadraticLoss:
 	def __init__(self):
 		pass
 
-	def forward(self, x, lebel):
+	def forward(self, x, label):
 		self.x = x
 		self.label = np.zeros_like(x)
 		for a, b in zip(self.label, label):
