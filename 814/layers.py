@@ -18,14 +18,14 @@ class Data:
 		bat = self.batch_size
 		l = self.l
 		if pos + bat >= 1:
-			ret = (self.x[pos:l], self.y[[pos:l]
+			ret = (self.x[pos:l], self.y[pos:l])
 			self.pos = 0
 			index = range(l)
 			np.random.shuffle(index)
 			self.x = self.x[index]
 			self.y = self.y[index]
 		else:
-			ret = (self.x[pos:pos+bat], self.y[pos:pos+bat]
+			ret = (self.x[pos:pos+bat], self.y[pos:pos+bat])
 			self.pos += self.batch_size
 		return ret, self.pos
 
